@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.Point;
 import java.util.*;
+import java.sql.*;
 
 public class Parking{
     // Atrybuty klasy Parking
@@ -69,9 +70,26 @@ public class Parking{
             }
             // Dodawanie pojazdu do listy pojazdów
             pojazdy.add(pojazd);
+            zapiszPojazdDoBazy(pojazd, pojazd.getZajetePola().get(0).y);
+
             return true;
 
+    }
 
+    public void zapiszPojazdDoBazy(Pojazd pojazd, int kolumna) {
+        String sql = "INSERT INTO danesamochodu (TypPojazdu, NrRejestracyjny, NrKolumny) VALUES (?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, pojazd.getTyp());
+            pstmt.setString(2, pojazd.getNrRejestracyjny());
+            pstmt.setInt(3, kolumna);
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -86,10 +104,27 @@ public class Parking{
             }
             // Usuwanie pojazdu z listy pojazdów
             pojazdy.remove(pojazd);
+            usunPojazdZBazy(nrRejestracyjny);
+
             return true;
         }
         return false;
     }
+
+    public void usunPojazdZBazy(String nrRejestracyjny) {
+        String sql = "DELETE FROM danesamochodu WHERE NrRejestracyjny = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nrRejestracyjny);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     // Metoda wyszukująca pojazd na podstawie numeru rejestracyjnego
     public Pojazd znajdzPojazd(String nrRejestracyjny) {

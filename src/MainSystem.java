@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.*;
 
 public class MainSystem extends JFrame{
     private JPanel panel1;
@@ -41,7 +42,6 @@ public class MainSystem extends JFrame{
                     String Nr_Rejestracyjny = NrRejestracyjny.getText();
                     int kolumna = Integer.parseInt(PozycjaParkowania.getText());
 
-
                     switch (typ) {
                         case "Motocykl":
                             pojazd = new Motocykl(Nr_Rejestracyjny, kolumna);
@@ -67,14 +67,12 @@ public class MainSystem extends JFrame{
                         JOptionPane.showMessageDialog(null, "Błąd dodania pojazdu",
                                 "Dodanie pojazdu", JOptionPane.ERROR_MESSAGE);
                     }
-
-
-
                 }
                 catch (NumberFormatException e1){
                     JOptionPane.showMessageDialog(null, "Nie podano numeru kolumny lub podane dane są nieprawidłowe",
                             "Dodanie pojazdu", JOptionPane.ERROR_MESSAGE);
                 }
+
             }
         });
 
