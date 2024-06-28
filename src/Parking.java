@@ -14,8 +14,6 @@ public class Parking{
     // Lista przechowująca wszystkie pojazdy znajdujące się na parkingu
     private List<Pojazd> pojazdy;
 
-    private StringBuilder layout = new StringBuilder();
-
     // Konstruktor klasy Parking
     public Parking() {
 
@@ -27,12 +25,59 @@ public class Parking{
         // Inicjalizacja listy pojazdów
         this.pojazdy = new ArrayList<>();
 
-        this.layout = new StringBuilder();
+        PobierzZBazyDanych();
 
     }
 
+    private void PobierzZBazyDanych() {
+        String sql = "SELECT * FROM pojazdy";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                String typ = rs.getString("TypPojazdu");
+                String nrRejestracyjny = rs.getString("NrRejestracyjny");
+                int kolumna = rs.getInt("NrKolumny");
+
+                Pojazd pojazd;
+                switch (typ) {
+                    case "Motocykl":
+                        pojazd = new Motocykl(nrRejestracyjny, kolumna);
+                        break;
+                    case "Samochód":
+                        pojazd = new Samochod(nrRejestracyjny, kolumna);
+                        break;
+                    case "Autobus":
+                        pojazd = new Autobus(nrRejestracyjny, kolumna);
+                        break;
+                    default:
+                        throw new IllegalArgumentException("Nieznany typ pojazdu: " + typ);
+                }
+                dodajPojazdDoPamieci(pojazd);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void dodajPojazdDoPamieci(Pojazd pojazd) {
+        for (Point p : pojazd.getZajetePola()) {
+            miejsca[p.x][p.y] = pojazd;
+        }
+        pojazdy.add(pojazd);
+    }
+
+
+
     // Metoda dodająca pojazd do parkingu
     public boolean dodajPojazd(Pojazd pojazd) {
+
+        if (znajdzPojazd(pojazd.getNrRejestracyjny()) != null) {
+            JOptionPane.showMessageDialog(null, "Pojazd o podanym numerze rejestracyjnym już istnieje!",
+                    "Dodanie pojazdu", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
 
             // Sprawdzanie, czy wszystkie pola, które pojazd chce zająć, są wolne
             for (Point p : pojazd.getZajetePola()) {
@@ -50,7 +95,7 @@ public class Parking{
                     else if (miejsca[p.x][p.y] != null) {
                         JOptionPane.showMessageDialog(null,"Wybrane miejsce jest zajęte! ",
                                 "Numer kolumny", JOptionPane.ERROR_MESSAGE);
-                        return false; // Miejsce zajęte, nie można dodać pojazdu
+                        return false;
                     }
                 }
                 catch (ArrayIndexOutOfBoundsException e){
@@ -77,7 +122,7 @@ public class Parking{
     }
 
     public void zapiszPojazdDoBazy(Pojazd pojazd, int kolumna) {
-        String sql = "INSERT INTO danesamochodu (TypPojazdu, NrRejestracyjny, NrKolumny) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO pojazdy (TypPojazdu, NrRejestracyjny, NrKolumny) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -105,14 +150,13 @@ public class Parking{
             // Usuwanie pojazdu z listy pojazdów
             pojazdy.remove(pojazd);
             usunPojazdZBazy(nrRejestracyjny);
-
             return true;
         }
         return false;
     }
 
     public void usunPojazdZBazy(String nrRejestracyjny) {
-        String sql = "DELETE FROM danesamochodu WHERE NrRejestracyjny = ?";
+        String sql = "DELETE FROM pojazdy WHERE NrRejestracyjny = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -149,7 +193,6 @@ public class Parking{
         System.out.println("Parking dla " + TypPojazdu);
         System.out.print(" 0  1  2  3  4  5  6  7  8  9\n");
         for (int i = OdKtorego; i < Wiersze + OdKtorego; i++) {
-            //System.out.print(i+" ");
             for (int j = 0; j < Kolumny; j++) {
                 if (miejsca[i][j] == null) {
                     System.out.print("|O|"); // Oznacza wolne miejsce
@@ -159,6 +202,7 @@ public class Parking{
                 }
 
             }
+
             System.out.println();
         }
     }
@@ -188,14 +232,25 @@ public class Parking{
 
     // Metoda wyświetlająca informacje o wszystkich pojazdach na parkingu
     public void wyswietlInformacjeOPojazdach() {
-        for (Pojazd pojazd : pojazdy) {
-            System.out.println("Typ: " + pojazd.getTyp());
-            System.out.println("Nr rejestracyjny: " + pojazd.getNrRejestracyjny());
-            System.out.print("Zajęte pola: ");
-            for (Point p : pojazd.getZajetePola()) {
-                System.out.print("(" + p.x + "," + p.y + ") ");
+        String sql = "SELECT TypPojazdu, NrRejestracyjny, NrKolumny, DataParkowania FROM pojazdy";
+        System.out.println();
+        System.out.println("Zaparkowane pojazdy: ");
+        try (Connection conn = DBConnection.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                String typPojazdu = rs.getString("TypPojazdu");
+                String nrRejestracyjny = rs.getString("NrRejestracyjny");
+                int nrKolumny = rs.getInt("NrKolumny");
+                Timestamp dataParkowania = rs.getTimestamp("DataParkowania");
+                System.out.println("Typ: " + typPojazdu);
+                System.out.println("Nr rejestracyjny: " + nrRejestracyjny);
+                System.out.println("Nr kolumny: " + nrKolumny);
+                System.out.println("Data zaparkowania: " + dataParkowania);
+                System.out.println();
             }
-            System.out.println("\n");
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }

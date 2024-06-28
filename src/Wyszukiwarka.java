@@ -17,7 +17,6 @@ public class Wyszukiwarka extends JFrame{
     public Wyszukiwarka(Parking parking) {
         super("System zarządzania parkingiem");
         this.setContentPane(this.panel1);
-        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(width,height);
         this.setLocationRelativeTo(null);
         this.setVisible(true);

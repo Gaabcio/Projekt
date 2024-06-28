@@ -31,6 +31,7 @@ public class MainSystem extends JFrame{
         this.parking = new Parking();
 
         parking.WszystkieParkingi();
+        parking.wyswietlInformacjeOPojazdach();
 
 
         zaparkujButton.addActionListener(new ActionListener() {
