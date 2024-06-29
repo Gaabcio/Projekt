@@ -151,14 +151,14 @@ public class MainSystem extends JFrame{
             }
         });
 
-        wyczyscButton.addActionListener(new ActionListener() { //wyczyszczenie textfieldów
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                TypPojazdu.setSelectedIndex(0);
-                NrRejestracyjny.setText("");
-                PozycjaParkowania.setSelectedIndex(0);
-            }
-        });
+//        wyczyscButton.addActionListener(new ActionListener() { //wyczyszczenie textfieldów
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                TypPojazdu.setSelectedIndex(0);
+//                NrRejestracyjny.setText("");
+//                PozycjaParkowania.setSelectedIndex(0);
+//            }
+//        });
 
 
         NrRejestracyjny.addKeyListener(new KeyAdapter() { //Duze litery dla pola tekstowego z nr rejestracyjnym

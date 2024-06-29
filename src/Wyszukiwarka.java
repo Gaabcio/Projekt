@@ -10,8 +10,9 @@ public class Wyszukiwarka extends JFrame{
     private JTextArea ParkingLayoutArea;
     private JTextField NrRejestracyjny;
     private JButton wyszukajButton;
-    private JTextArea InformacjaPojazdu;
+    //private JTextArea InformacjaPojazdu;
     private JButton zamknijButton;
+    private JTextPane tutajPojawiSięInformacjaTextPane;
     private JPanel panel2;
     private int width = 500, height = 400;
     private Parking parking;
@@ -30,7 +31,7 @@ public class Wyszukiwarka extends JFrame{
 
                 String nrRejestracyjny = NrRejestracyjny.getText();
                 String layout = parking.WyszukiwarkaPojazdu(nrRejestracyjny);
-                InformacjaPojazdu.setText(layout);
+                tutajPojawiSięInformacjaTextPane.setText(layout);
             }
         });
 
@@ -50,7 +51,7 @@ public class Wyszukiwarka extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 String nrRejestracyjny = NrRejestracyjny.getText();
                 String layout = parking.WyszukiwarkaPojazdu(nrRejestracyjny);
-                InformacjaPojazdu.setText(layout);
+                tutajPojawiSięInformacjaTextPane.setText(layout);
             }
         });
 
@@ -61,6 +62,4 @@ public class Wyszukiwarka extends JFrame{
             }
         });
     }
-
-
 }
