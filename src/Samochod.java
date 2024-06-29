@@ -9,6 +9,6 @@ public class Samochod extends Pojazd {
 
     @Override
     public String getTyp() {
-        return "Samochod";
+        return "Samochód";
     }
 }

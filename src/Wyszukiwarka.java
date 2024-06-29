@@ -11,8 +11,9 @@ public class Wyszukiwarka extends JFrame{
     private JTextField NrRejestracyjny;
     private JButton wyszukajButton;
     private JTextArea InformacjaPojazdu;
+    private JButton zamknijButton;
     private JPanel panel2;
-    private int width = 600, height = 600;
+    private int width = 500, height = 400;
     private Parking parking;
     public Wyszukiwarka(Parking parking) {
         super("System zarządzania parkingiem");
@@ -52,5 +53,14 @@ public class Wyszukiwarka extends JFrame{
                 InformacjaPojazdu.setText(layout);
             }
         });
+
+        zamknijButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+            }
+        });
     }
+
+
 }

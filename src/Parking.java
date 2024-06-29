@@ -6,6 +6,7 @@ import java.sql.*;
 public class Parking{
     // Atrybuty klasy Parking
     private int Kolumny;
+    private Map<String, List<Integer>> zajeteKolumny;
 
     // Tablica dwuwymiarowa reprezentująca miejsca parkingowe.
     // Każde miejsce może być puste (null) lub zajęte przez obiekt klasy Pojazd
@@ -14,19 +15,23 @@ public class Parking{
     // Lista przechowująca wszystkie pojazdy znajdujące się na parkingu
     private List<Pojazd> pojazdy;
 
+
     // Konstruktor klasy Parking
     public Parking() {
-
         Kolumny = 10;
-
         // Inicjalizacja tablicy miejsc parkingowych o podanych wymiarach
         this.miejsca = new Pojazd[7][10];
-
         // Inicjalizacja listy pojazdów
         this.pojazdy = new ArrayList<>();
+        // Inicjalizacja mapy
+        this.zajeteKolumny = new HashMap<>();
+
+        // Dodanie pustych list dla każdego typu pojazdu
+        zajeteKolumny.put("Motocykl", new ArrayList<>());
+        zajeteKolumny.put("Samochód", new ArrayList<>());
+        zajeteKolumny.put("Autobus", new ArrayList<>());
 
         PobierzZBazyDanych();
-
     }
 
     private void PobierzZBazyDanych() {
@@ -67,8 +72,6 @@ public class Parking{
         }
         pojazdy.add(pojazd);
     }
-
-
 
     // Metoda dodająca pojazd do parkingu
     public boolean dodajPojazd(Pojazd pojazd) {
@@ -117,6 +120,12 @@ public class Parking{
             pojazdy.add(pojazd);
             zapiszPojazdDoBazy(pojazd, pojazd.getZajetePola().get(0).y);
 
+            // Aktualizacja mapy zajętych kolumn
+            String typ = pojazd.getTyp();
+            List<Integer> zajete = zajeteKolumny.get(typ);
+            for (Point p : pojazd.getZajetePola()) {
+                zajete.add(p.y);
+            }
             return true;
 
     }
@@ -137,22 +146,39 @@ public class Parking{
         }
     }
 
-
     // Metoda usuwająca pojazd z parkingu na podstawie numeru rejestracyjnego
     public boolean usunPojazd(String nrRejestracyjny) {
         // Znajdowanie pojazdu na podstawie numeru rejestracyjnego
+
         Pojazd pojazd = znajdzPojazd(nrRejestracyjny);
         if (pojazd != null) {
-            // Usuwanie pojazdu z tablicy miejsc
+            String typ = pojazd.getTyp();
+            List<Integer> zajete = zajeteKolumny.get(typ);
             for (Point p : pojazd.getZajetePola()) {
-                miejsca[p.x][p.y] = null;
+                zajete.remove((Integer) p.y);
             }
-            // Usuwanie pojazdu z listy pojazdów
             pojazdy.remove(pojazd);
             usunPojazdZBazy(nrRejestracyjny);
+
             return true;
         }
-        return false;
+            return false;
+
+
+
+
+//        Pojazd pojazd = znajdzPojazd(nrRejestracyjny);
+//        if (pojazd != null) {
+//            // Usuwanie pojazdu z tablicy miejsc
+//            for (Point p : pojazd.getZajetePola()) {
+//                miejsca[p.x][p.y] = null;
+//            }
+//            // Usuwanie pojazdu z listy pojazdów
+
+
+
+       // }
+
     }
 
     public void usunPojazdZBazy(String nrRejestracyjny) {
@@ -167,8 +193,6 @@ public class Parking{
             e.printStackTrace();
         }
     }
-
-
 
     // Metoda wyszukująca pojazd na podstawie numeru rejestracyjnego
     public Pojazd znajdzPojazd(String nrRejestracyjny) {
@@ -206,8 +230,6 @@ public class Parking{
             System.out.println();
         }
     }
-
-
 
     public String WyszukiwarkaPojazdu(String NrRejestracyjny) { //wyszukiwarka
 
@@ -253,4 +275,44 @@ public class Parking{
             e.printStackTrace();
         }
     }
+
+    public List<String> pobierzNumeryRejestracyjne() {
+        List<String> numeryRejestracyjne = new ArrayList<>();
+        for (Pojazd pojazd : pojazdy) {
+            numeryRejestracyjne.add(pojazd.getNrRejestracyjny());
+        }
+        return numeryRejestracyjne;
+    }
+
+    public List<Integer> pobierzDostepneKolumny(String typPojazdu){
+
+        List<Integer> dostepneKolumny = new ArrayList<>();
+        for (int i = 0; i < Kolumny; i++) {
+            if (!zajeteKolumny.get(typPojazdu).contains(i)) {
+                dostepneKolumny.add(i);
+            }
+        }
+        return dostepneKolumny;
+
+
+        //        List<Integer> dostepneKolumny = new ArrayList<>();
+//        //int liczbaWierszy = 7; // zakładam, że mamy 7 wierszy w parkingu
+//
+//        for (int kolumna = 0; kolumna < Kolumny; kolumna++) {
+//            boolean zajeta = false;
+//            for (int wiersz = 0; wiersz < liczbaWierszy; wiersz++) {
+//                if (miejsca[wiersz][kolumna] != null) {
+//                    zajeta = true;
+//                    break;
+//                }
+//            }
+//            if (!zajeta && !zajeteKolumny.get(typPojazdu).contains(kolumna)) {
+//                dostepneKolumny.add(kolumna);
+//            }
+//        }
+//
+//        return dostepneKolumny;
+    }
+
+
 }

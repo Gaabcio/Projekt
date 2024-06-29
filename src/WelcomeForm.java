@@ -4,7 +4,7 @@ public class WelcomeForm extends JFrame {
     private JPanel PanelWelcome;
     private JProgressBar progressBar1;
     private JLabel lblProszeCzekac;
-    private int width = 400, height = 300;
+    private int width = 500, height = 400;
 
     public WelcomeForm(){
         super("Laboratorium 2");
@@ -20,7 +20,6 @@ public class WelcomeForm extends JFrame {
     private void progression(){
         int counter = 0;
         while (counter <= 100){
-            lblProszeCzekac.setText("Proszę czekać ...");
             progressBar1.setValue(counter);
             try {
                 Thread.sleep(100);

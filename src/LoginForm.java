@@ -8,7 +8,7 @@ public class LoginForm extends JFrame {
     private JTextField userName;
     private JButton wyjscieButton;
     private JButton zalogujButton;
-    private int width = 400, height = 300;
+    private int width = 600, height = 400;
     String user = "admin", password = "admin";
 
     public LoginForm(){

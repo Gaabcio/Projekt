@@ -1,25 +1,33 @@
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.sql.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.List;
+
 
 public class MainSystem extends JFrame{
     private JPanel panel1;
     private JComboBox TypPojazdu;
     private JTextField NrRejestracyjny;
-    private JTextField PozycjaParkowania;
     private JButton wyczyscButton;
     private JButton wyjscieButton;
     private JButton zaparkujButton;
     private JButton wyparkujButton;
     private JButton wylogujButton;
     private JButton wyszukajButton;
+    private JLabel TypPojazduLabel;
+    private JComboBox PozycjaParkowania;
 
-    private int width = 600, height = 600;
+    private int width = 500, height = 400;
     private Parking parking;
     private Pojazd pojazd;
+    private ImageIcon iconMoto = new ImageIcon(getClass().getResource("/moto.png"));
+    private ImageIcon iconCar = new ImageIcon(getClass().getResource("/car.png"));
+    private ImageIcon iconBus = new ImageIcon(getClass().getResource("/bus.png"));
+
+    private static ImageIcon resize(ImageIcon src){
+        return new ImageIcon(src.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH));
+    }
+
 
     public MainSystem() {
         super("System zarządzania parkingiem");
@@ -30,8 +38,33 @@ public class MainSystem extends JFrame{
         this.setVisible(true);
         this.parking = new Parking();
 
+
+
         parking.WszystkieParkingi();
         parking.wyswietlInformacjeOPojazdach();
+        aktualizujComboBoxPozycjiParkowania();
+        TypPojazduLabel.setIcon(resize(iconMoto));
+        TypPojazdu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String typ = (String) TypPojazdu.getSelectedItem();
+                switch (typ){
+                    case "Motocykl":
+                        TypPojazduLabel.setIcon(resize(iconMoto));
+                        break;
+                    case "Samochód":
+                        TypPojazduLabel.setIcon(resize(iconCar));
+                        break;
+                    case "Autobus":
+                        TypPojazduLabel.setIcon(resize(iconBus));
+                        break;
+                    default:
+                        TypPojazduLabel.setIcon(null);
+                        break;
+                }
+                aktualizujComboBoxPozycjiParkowania();
+            }
+        });
 
 
         zaparkujButton.addActionListener(new ActionListener() {
@@ -41,7 +74,7 @@ public class MainSystem extends JFrame{
                 try {
                     String typ = (String) TypPojazdu.getSelectedItem();
                     String Nr_Rejestracyjny = NrRejestracyjny.getText();
-                    int kolumna = Integer.parseInt(PozycjaParkowania.getText());
+                    int kolumna = (Integer) PozycjaParkowania.getSelectedItem();
 
                     switch (typ) {
                         case "Motocykl":
@@ -64,6 +97,7 @@ public class MainSystem extends JFrame{
                                 "Dodanie pojazdu", JOptionPane.INFORMATION_MESSAGE);
                         parking.WszystkieParkingi();
                         parking.wyswietlInformacjeOPojazdach();
+                        aktualizujComboBoxPozycjiParkowania();
                     } else {
                         JOptionPane.showMessageDialog(null, "Błąd dodania pojazdu",
                                 "Dodanie pojazdu", JOptionPane.ERROR_MESSAGE);
@@ -80,17 +114,16 @@ public class MainSystem extends JFrame{
         wyparkujButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String Nr_Rejestracyjny = NrRejestracyjny.getText();
-                if (parking.usunPojazd(Nr_Rejestracyjny)) {
-                    JOptionPane.showMessageDialog(null,"Usunięto pojazd: " +Nr_Rejestracyjny,
-                            "Usuwanie pojazdu", JOptionPane.INFORMATION_MESSAGE);
-                    parking.WszystkieParkingi();
-                    parking.wyswietlInformacjeOPojazdach();
-                } else {
-                    JOptionPane.showMessageDialog(null,"Błąd usunięcia pojazdu: " +Nr_Rejestracyjny,
-                            "Usuwanie pojazdu", JOptionPane.ERROR_MESSAGE);
-                }
 
+                List<String> numeryRejestracyjne = parking.pobierzNumeryRejestracyjne();
+
+                if (numeryRejestracyjne.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Brak pojazdów do wyparkowania.",
+                            "Wyparkowanie pojazdu", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    Wyparkuj wyparkuj = new Wyparkuj(parking);
+                    wyparkuj.setVisible(true);
+                }
             }
         });
 
@@ -123,7 +156,7 @@ public class MainSystem extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 TypPojazdu.setSelectedIndex(0);
                 NrRejestracyjny.setText("");
-                PozycjaParkowania.setText("");
+                PozycjaParkowania.setSelectedIndex(0);
             }
         });
 
@@ -137,7 +170,15 @@ public class MainSystem extends JFrame{
                 NrRejestracyjny.setCaretPosition(position);
             }
         });
-
+    }
+    public void aktualizujComboBoxPozycjiParkowania() {
+        PozycjaParkowania.removeAllItems();
+        String typPojazdu = (String) TypPojazdu.getSelectedItem();
+        List<Integer> dostepneKolumny = parking.pobierzDostepneKolumny(typPojazdu);
+        //System.out.println("Dostępne kolumny dla " + typPojazdu + ": " + dostepneKolumny);
+        for (Integer kolumna : dostepneKolumny) {
+            PozycjaParkowania.addItem(kolumna);
+        }
     }
 }
 
