@@ -73,7 +73,7 @@ public class Parking{
             miejsca[p.x][p.y] = pojazd;
         }
         pojazdy.add(pojazd);
-        System.out.println("Tutaj lista pojazdow"+pojazdy);
+        //System.out.println("Tutaj lista pojazdow"+pojazdy);
     }
 
     // Metoda dodająca pojazd do parkingu
