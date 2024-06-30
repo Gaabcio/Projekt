@@ -39,11 +39,11 @@ public class MainSystem extends JFrame{
         this.parking = new Parking();
 
 
-
         parking.WszystkieParkingi();
         parking.wyswietlInformacjeOPojazdach();
         aktualizujComboBoxPozycjiParkowania();
         TypPojazduLabel.setIcon(resize(iconMoto));
+
         TypPojazdu.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,12 +51,15 @@ public class MainSystem extends JFrame{
                 switch (typ){
                     case "Motocykl":
                         TypPojazduLabel.setIcon(resize(iconMoto));
+                        aktualizujComboBoxPozycjiParkowania();
                         break;
                     case "Samochód":
                         TypPojazduLabel.setIcon(resize(iconCar));
+                        aktualizujComboBoxPozycjiParkowania();
                         break;
                     case "Autobus":
                         TypPojazduLabel.setIcon(resize(iconBus));
+                        aktualizujComboBoxPozycjiParkowania();
                         break;
                     default:
                         TypPojazduLabel.setIcon(null);
@@ -98,6 +101,7 @@ public class MainSystem extends JFrame{
                         parking.WszystkieParkingi();
                         parking.wyswietlInformacjeOPojazdach();
                         aktualizujComboBoxPozycjiParkowania();
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Błąd dodania pojazdu",
                                 "Dodanie pojazdu", JOptionPane.ERROR_MESSAGE);
@@ -151,15 +155,6 @@ public class MainSystem extends JFrame{
             }
         });
 
-//        wyczyscButton.addActionListener(new ActionListener() { //wyczyszczenie textfieldów
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                TypPojazdu.setSelectedIndex(0);
-//                NrRejestracyjny.setText("");
-//                PozycjaParkowania.setSelectedIndex(0);
-//            }
-//        });
-
 
         NrRejestracyjny.addKeyListener(new KeyAdapter() { //Duze litery dla pola tekstowego z nr rejestracyjnym
             @Override
@@ -173,8 +168,10 @@ public class MainSystem extends JFrame{
     }
     public void aktualizujComboBoxPozycjiParkowania() {
         PozycjaParkowania.removeAllItems();
+
         String typPojazdu = (String) TypPojazdu.getSelectedItem();
         List<Integer> dostepneKolumny = parking.pobierzDostepneKolumny(typPojazdu);
+
         //System.out.println("Dostępne kolumny dla " + typPojazdu + ": " + dostepneKolumny);
         for (Integer kolumna : dostepneKolumny) {
             PozycjaParkowania.addItem(kolumna);

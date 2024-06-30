@@ -14,7 +14,7 @@ public class Wyszukiwarka extends JFrame{
     private JButton zamknijButton;
     private JTextPane tutajPojawiSięInformacjaTextPane;
     private JPanel panel2;
-    private int width = 500, height = 400;
+    private int width = 490, height = 400;
     private Parking parking;
     public Wyszukiwarka(Parking parking) {
         super("System zarządzania parkingiem");

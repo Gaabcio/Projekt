@@ -5,7 +5,10 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-4728065"/>
+      <foreground color="-4728065"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="d141c" binding="panel1" default-binding="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -14,7 +17,9 @@
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
+          <background color="-4728065"/>
           <enabled value="true"/>
+          <foreground color="-4728065"/>
         </properties>
         <border type="none"/>
         <children>
@@ -24,22 +29,26 @@
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
-              <background color="-8218436"/>
+              <background color="-4728065"/>
+              <foreground color="-4728065"/>
             </properties>
             <border type="none"/>
             <children>
-              <grid id="e95b1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="e95b1" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
-                <properties/>
-                <border type="none"/>
+                <properties>
+                  <background color="-4728065"/>
+                  <foreground color="-4728065"/>
+                </properties>
+                <border type="etched"/>
                 <children>
                   <grid id="ca106" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                     </constraints>
                     <properties>
                       <background color="-4728065"/>
@@ -53,12 +62,21 @@
                         </constraints>
                         <properties>
                           <font name="JetBrains Mono" size="19"/>
-                          <foreground color="-16777216"/>
-                          <text value="Główne menu systemu zarządzania parkingiem"/>
+                          <text value="Wyparkuj pojazd"/>
                         </properties>
                       </component>
                     </children>
                   </grid>
+                  <hspacer id="90442">
+                    <constraints>
+                      <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
+                  <hspacer id="ab8ff">
+                    <constraints>
+                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+                    </constraints>
+                  </hspacer>
                 </children>
               </grid>
               <grid id="74dca" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
@@ -68,8 +86,9 @@
                 </constraints>
                 <properties>
                   <background color="-4728065"/>
+                  <foreground color="-4728065"/>
                 </properties>
-                <border type="none"/>
+                <border type="etched"/>
                 <children>
                   <component id="c3aaf" class="javax.swing.JComboBox" binding="nrRejestracyjnyComboBox">
                     <constraints>
@@ -85,7 +104,6 @@
                     </constraints>
                     <properties>
                       <enabled value="true"/>
-                      <foreground color="-16777216"/>
                       <text value="Wybierz pojazd który chcesz wyparkować"/>
                     </properties>
                   </component>
@@ -101,39 +119,19 @@
                   </hspacer>
                 </children>
               </grid>
-              <grid id="bdef2" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+              <grid id="bdef2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                 <margin top="0" left="0" bottom="0" right="0"/>
                 <constraints>
                   <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
                 </constraints>
                 <properties>
+                  <background color="-4728065"/>
+                  <foreground color="-4728065"/>
                   <opaque value="false"/>
                 </properties>
                 <border type="none"/>
                 <children>
-                  <grid id="5b566" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-                    <margin top="0" left="0" bottom="0" right="0"/>
-                    <constraints>
-                      <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-                    </constraints>
-                    <properties>
-                      <background color="-4728065"/>
-                    </properties>
-                    <border type="none"/>
-                    <children>
-                      <component id="f281e" class="javax.swing.JButton" binding="wyparkujButton" default-binding="true">
-                        <constraints>
-                          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                        </constraints>
-                        <properties>
-                          <foreground color="-16777216"/>
-                          <text value="Wyparkuj"/>
-                          <toolTipText value="Podaj numer rejestracyjny, a następnie kliknij wyparkuj"/>
-                        </properties>
-                      </component>
-                    </children>
-                  </grid>
-                  <grid id="b896f" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+                  <grid id="b896f" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
                     <margin top="0" left="0" bottom="0" right="0"/>
                     <constraints>
                       <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -142,16 +140,34 @@
                       <background color="-4728065"/>
                       <inheritsPopupMenu value="false"/>
                     </properties>
-                    <border type="none"/>
+                    <border type="etched"/>
                     <children>
                       <component id="87dc4" class="javax.swing.JButton" binding="anulujButton">
                         <constraints>
                           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
                         </constraints>
                         <properties>
-                          <foreground color="-16777216"/>
+                          <borderPainted value="true"/>
+                          <contentAreaFilled value="true"/>
+                          <doubleBuffered value="false"/>
+                          <focusTraversalPolicyProvider value="false"/>
+                          <hideActionText value="false"/>
+                          <horizontalTextPosition value="11"/>
+                          <inheritsPopupMenu value="false"/>
                           <text value="Anuluj"/>
                           <toolTipText value="Wyjście z programu."/>
+                          <verticalAlignment value="0"/>
+                          <verticalTextPosition value="0"/>
+                        </properties>
+                      </component>
+                      <component id="f281e" class="javax.swing.JButton" binding="wyparkujButton" default-binding="true">
+                        <constraints>
+                          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+                        </constraints>
+                        <properties>
+                          <borderPainted value="true"/>
+                          <text value="Wyparkuj"/>
+                          <toolTipText value="Podaj numer rejestracyjny, a następnie kliknij wyparkuj"/>
                         </properties>
                       </component>
                     </children>

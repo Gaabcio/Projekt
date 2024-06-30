@@ -63,6 +63,8 @@ public class Parking{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Wystąpił błąd z połączeniem z bazą danych, upewnij się że baza jest aktywna, i uruchom ponownie program.",
+                    "Połączenie z bazą danych", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -71,6 +73,7 @@ public class Parking{
             miejsca[p.x][p.y] = pojazd;
         }
         pojazdy.add(pojazd);
+        System.out.println("Tutaj lista pojazdow"+pojazdy);
     }
 
     // Metoda dodająca pojazd do parkingu
@@ -124,7 +127,9 @@ public class Parking{
             String typ = pojazd.getTyp();
             List<Integer> zajete = zajeteKolumny.get(typ);
             for (Point p : pojazd.getZajetePola()) {
-                zajete.add(p.y);
+                if (!zajete.contains(p.y)) {
+                    zajete.add(p.y);
+                }
             }
             return true;
 
@@ -154,30 +159,16 @@ public class Parking{
         if (pojazd != null) {
             String typ = pojazd.getTyp();
             List<Integer> zajete = zajeteKolumny.get(typ);
+
             for (Point p : pojazd.getZajetePola()) {
                 zajete.remove((Integer) p.y);
+                miejsca[p.x][p.y] = null;
             }
             pojazdy.remove(pojazd);
             usunPojazdZBazy(nrRejestracyjny);
-
             return true;
         }
             return false;
-
-
-
-
-//        Pojazd pojazd = znajdzPojazd(nrRejestracyjny);
-//        if (pojazd != null) {
-//            // Usuwanie pojazdu z tablicy miejsc
-//            for (Point p : pojazd.getZajetePola()) {
-//                miejsca[p.x][p.y] = null;
-//            }
-//            // Usuwanie pojazdu z listy pojazdów
-
-
-
-       // }
 
     }
 
@@ -284,7 +275,7 @@ public class Parking{
         return numeryRejestracyjne;
     }
 
-    public List<Integer> pobierzDostepneKolumny(String typPojazdu){
+    public List<Integer> pobierzDostepneKolumny(String typPojazdu) {
 
         List<Integer> dostepneKolumny = new ArrayList<>();
         for (int i = 0; i < Kolumny; i++) {
@@ -295,24 +286,5 @@ public class Parking{
         return dostepneKolumny;
 
 
-        //        List<Integer> dostepneKolumny = new ArrayList<>();
-//        //int liczbaWierszy = 7; // zakładam, że mamy 7 wierszy w parkingu
-//
-//        for (int kolumna = 0; kolumna < Kolumny; kolumna++) {
-//            boolean zajeta = false;
-//            for (int wiersz = 0; wiersz < liczbaWierszy; wiersz++) {
-//                if (miejsca[wiersz][kolumna] != null) {
-//                    zajeta = true;
-//                    break;
-//                }
-//            }
-//            if (!zajeta && !zajeteKolumny.get(typPojazdu).contains(kolumna)) {
-//                dostepneKolumny.add(kolumna);
-//            }
-//        }
-//
-//        return dostepneKolumny;
     }
-
-
 }
