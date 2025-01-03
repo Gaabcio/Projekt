@@ -60,6 +60,12 @@ public class Parking{
                         throw new IllegalArgumentException("Nieznany typ pojazdu: " + typ);
                 }
                 dodajPojazdDoPamieci(pojazd);
+
+                // Aktualizacja mapy zajętych kolumn
+                List<Integer> zajete = zajeteKolumny.get(typ);
+                if (!zajete.contains(kolumna)) {
+                    zajete.add(kolumna);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
